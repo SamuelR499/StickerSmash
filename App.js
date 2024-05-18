@@ -13,6 +13,7 @@ function App() {
       <Stack.Navigator>
         <Stack.Screen name="Home" component={HomeScreen} />
         <Stack.Screen name="Register" component={RegisterUser} />
+        {/*Adicionad as outras paginas*/}
       </Stack.Navigator>
     </NavigationContainer>
   );
