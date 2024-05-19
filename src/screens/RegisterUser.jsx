@@ -216,7 +216,11 @@ const RegisterUser = ({ navigation }) => {
                   value={userCnpj}
                 />
               )}
-              <Mybutton title="Salvar" customClick={register_user} />
+              <Mybutton
+                title="Salvar"
+                btnIcon="content-save-check-outline"
+                customClick={register_user}
+              />
             </KeyboardAvoidingView>
           </ScrollView>
         </View>

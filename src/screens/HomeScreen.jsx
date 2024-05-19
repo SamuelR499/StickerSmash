@@ -1,42 +1,45 @@
 import * as React from "react";
-import { View, SafeAreaView } from "react-native";
+import { View, SafeAreaView, Image } from "react-native";
 import MyImageButton from "../components/MyImageButton";
 
 const HomeScreen = ({ navigation }) => {
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <View style={{ flex: 1, backgroundColor: "white" }}>
+      <View style={{ flex: 1, backgroundColor: "#fff2f2" }}>
+        <Image
+          source={require("../../assets/images/FTW.png")}
+          style={{
+            marginVertical: 30,
+            margin: 10,
+            alignSelf: "center",
+            width: 350,
+            height: 140,
+          }}
+        />
         <View style={{ flex: 1 }}>
           <View style={{ flex: 1 }}>
             <MyImageButton
               title="Registrar Usuário"
-              btnColor="#2992C4"
+              btnColor="#59a412"
               btnIcon="user-plus"
               customClick={() => navigation.navigate("Register")}
             />
 
             <MyImageButton
               title="Atualizar Usuário"
-              btnColor="#A45BB9"
+              btnColor="#f6a700"
               btnIcon="user-circle"
               customClick={() => navigation.navigate("Update")}
             />
-
-            <MyImageButton
-              title="Visualizar Usuário"
-              btnColor="#F9AD29"
-              btnIcon="user"
-              customClick={() => navigation.navigate("View")}
-            />
             <MyImageButton
               title="Visualizar Todos"
-              btnColor="#384F62"
+              btnColor="#212529"
               btnIcon="users"
               customClick={() => navigation.navigate("ViewAll")}
             />
             <MyImageButton
               title="Excluir Usuário"
-              btnColor="#D1503A"
+              btnColor="#e5272c"
               btnIcon="user-times"
               customClick={() => navigation.navigate("Delete")}
             />

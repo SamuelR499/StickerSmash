@@ -27,10 +27,12 @@ const styles = StyleSheet.create({
     borderRadius: 5,
   },
   text: {
-    color: "#ffffff",
+    color: "#ffeaff",
     alignItems: "center",
+    fontWeight: "bold",
   },
   icon: {
+    color: "#ffeaff",
     paddingBottom: 5,
   },
 });

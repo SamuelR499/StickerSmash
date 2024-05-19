@@ -20,7 +20,7 @@ const MyRadioButton = ({ label, checked, onPress }) => {
             height: 20,
             borderRadius: 10,
             borderWidth: 2,
-            borderColor: "#b00211",
+            borderColor: "#e5272c",
             justifyContent: "center",
             alignItems: "center",
           }}
@@ -31,7 +31,7 @@ const MyRadioButton = ({ label, checked, onPress }) => {
                 width: 10,
                 height: 10,
                 borderRadius: 5,
-                backgroundColor: "#b00211",
+                backgroundColor: "#e5272c",
               }}
             />
           )}
