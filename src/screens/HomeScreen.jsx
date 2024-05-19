@@ -1,10 +1,11 @@
 import * as React from "react";
-import { View, SafeAreaView, Image } from "react-native";
+import { View, SafeAreaView, Image, StatusBar } from "react-native";
 import MyImageButton from "../components/MyImageButton";
 
 const HomeScreen = ({ navigation }) => {
   return (
     <SafeAreaView style={{ flex: 1 }}>
+      <StatusBar barStyle="light-content" backgroundColor="#e5272c" />
       <View style={{ flex: 1, backgroundColor: "#fff2f2" }}>
         <Image
           source={require("../../assets/images/FTW.png")}

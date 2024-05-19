@@ -31,7 +31,7 @@ function App() {
           name="Register"
           component={RegisterUser}
           options={{
-            title: 'Atualizar Usuário',
+            title: 'Cadastro de cliente',
             headerStyle: {
               backgroundColor: '#e5272c',
             },

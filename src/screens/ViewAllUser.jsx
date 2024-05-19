@@ -1,5 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { FlatList, Text, View, SafeAreaView, StyleSheet } from "react-native";
+import {
+  FlatList,
+  Text,
+  View,
+  SafeAreaView,
+  StyleSheet,
+  StatusBar,
+} from "react-native";
 import Mybutton from "../components/Mybutton";
 
 const ViewAllUser = () => {
@@ -81,6 +88,7 @@ const ViewAllUser = () => {
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
+      <StatusBar barStyle="light-content" backgroundColor="#e5272c" />
       <View style={{ flex: 1, backgroundColor: "white" }}>
         <Mybutton
           title="Exportar"

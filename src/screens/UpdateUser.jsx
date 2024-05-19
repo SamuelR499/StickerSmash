@@ -5,6 +5,7 @@ import {
   KeyboardAvoidingView,
   Alert,
   SafeAreaView,
+  StatusBar,
 } from "react-native";
 
 import Mytext from "../components/Mytext";
@@ -56,6 +57,7 @@ const UpdateUser = ({ navigation }) => {
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
+      <StatusBar barStyle="light-content" backgroundColor="#e5272c" />
       <View style={{ flex: 1, backgroundColor: "white" }}>
         <View style={{ flex: 1 }}>
           <ScrollView keyboardShouldPersistTaps="handled">

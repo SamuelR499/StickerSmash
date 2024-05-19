@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { StatusBar } from "react-native";
 import {
   View,
   ScrollView,
@@ -152,6 +153,7 @@ const RegisterUser = ({ navigation }) => {
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
+      <StatusBar barStyle="light-content" backgroundColor="#e5272c" />
       <View style={{ flex: 1, backgroundColor: "white" }}>
         <Image
           source={require("../../assets/images/FTW.png")}
