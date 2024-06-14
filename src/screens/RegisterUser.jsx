@@ -11,6 +11,9 @@ import {
 import Mytextinput from "../components/Mytextinput";
 import Mybutton from "../components/Mybutton";
 import MyRadioButton from "../components/MyRadioButton";
+import { DatabaseConnection } from "../database/database-connection";
+
+const db = await DatabaseConnection.getConnection();
 
 const RegisterUser = ({ navigation }) => {
   const radiusOptions = [
@@ -64,38 +67,15 @@ const RegisterUser = ({ navigation }) => {
         formatted += phone[i];
       }
     }
-
     setUserContact(formatted);
   };
 
-  const submitData = () => {
-    console.log(
-      userName,
-      userContact,
-      userAddress,
-      userSocial,
-      userCnpj,
-      selectedRadius
+  const submitData = async () => {
+    const result = await db.runAsync(
+      "INSERT INTO Users (name, email_address, phone, instagram, cnpj_cpf) VALUES (?, ?, ?, ?, ?)",
+      [userName, userContact, userAddress, userSocial, userCnpj, selectedRadius]
     );
-    Alert.alert(
-      "Sucesso",
-      "Usuário Registrado com Sucesso !!!",
-      [
-        {
-          text: "Ok",
-          onPress: () => {
-            setUserName("");
-            setUserContact("");
-            setUserAddress("");
-            setUserSocial("");
-            setUserCnpj("");
-            setSelectedRadius(radiusOptions[0]);
-            navigation.navigate("Register");
-          },
-        },
-      ],
-      { cancelable: false }
-    );
+    console.log(result.lastInsertRowId, result.changes);
   };
 
   const register_user = () => {
