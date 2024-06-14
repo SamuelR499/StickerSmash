@@ -25,11 +25,9 @@ const HomeScreen = ({ navigation }) => {
             email_address TEXT NOT NULL,
             phone TEXT NOT NULL,
             instagram TEXT NOT NULL,
-            cnpj_cpf TEXT NOT NULL
+            cnpj_cpf TEXT NOT NULL,
+            type TEXT NOT NULL,
           );
-          INSERT INTO Users (name, email_address, phone, instagram, cnpj_cpf) VALUES ('John Doe', 'john@example.com', '123-456-7890', '@john', '12345678901');
-          INSERT INTO Users (name, email_address, phone, instagram, cnpj_cpf) VALUES ('Jane Smith', 'jane@example.com', '098-765-4321', '@jane', '23456789012');
-          INSERT INTO Users (name, email_address, phone, instagram, cnpj_cpf) VALUES ('Alice Johnson', 'alice@example.com', '555-123-4567', '@alice', '34567890123');
         `);
 
         const result = await db.runAsync(
