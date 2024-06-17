@@ -1,12 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  View,
-  SafeAreaView,
-  Image,
-  StatusBar,
-  FlatList,
-  Text,
-} from "react-native";
+import { View, SafeAreaView, Image, StatusBar } from "react-native";
 import MyImageButton from "../components/MyImageButton";
 import { DatabaseConnection } from "../database/database-connection";
 
@@ -19,41 +12,16 @@ const HomeScreen = ({ navigation }) => {
         const db = await DatabaseConnection.getConnection();
         await db.execAsync(`
           PRAGMA journal_mode = WAL;
-          CREATE TABLE IF NOT EXISTS Users (
+          CREATE TABLE IF NOT EXISTS Users_Teste (
             id INTEGER PRIMARY KEY NOT NULL,
             name TEXT NOT NULL,
             email_address TEXT NOT NULL,
             phone TEXT NOT NULL,
-            instagram TEXT NOT NULL,
-            cnpj_cpf TEXT NOT NULL,
-            type TEXT NOT NULL,
+            instagram TEXT,
+            cnpj TEXT,
+            type TEXT NOT NULL
           );
         `);
-
-        const result = await db.runAsync(
-          "INSERT INTO Users (name, email_address, phone, instagram, cnpj_cpf) VALUES (?, ?, ?, ?, ?)",
-          "aaa",
-          "aaa@example.com",
-          "000-000-0000",
-          "@aaa",
-          "45678901234"
-        );
-        console.log(result.lastInsertRowId, result.changes);
-        await db.runAsync(
-          "UPDATE Users SET phone = ? WHERE name = ?",
-          "999-999-9999",
-          "aaa"
-        ); // Binding unnamed parameters from variadic arguments
-        await db.runAsync("UPDATE Users SET phone = ? WHERE name = ?", [
-          "999-999-9999",
-          "aaa",
-        ]); // Binding unnamed parameters from array
-        await db.runAsync("DELETE FROM Users WHERE name = $name", {
-          $name: "aaa",
-        }); // Binding named parameters from object
-
-        const firstRow = await db.getFirstAsync("SELECT * FROM Users");
-        setUsers([firstRow]);
       } catch (error) {
         console.error("Error initializing database: ", error);
       }
@@ -77,26 +45,6 @@ const HomeScreen = ({ navigation }) => {
           }}
         />
         <View style={{ flex: 1 }}>
-          <FlatList
-            data={users}
-            keyExtractor={(item) => item.id.toString()}
-            renderItem={({ item }) => (
-              <View
-                style={{
-                  padding: 10,
-                  borderBottomWidth: 1,
-                  borderBottomColor: "#ccc",
-                }}
-              >
-                <Text>ID: {item.id}</Text>
-                <Text>Name: {item.name}</Text>
-                <Text>Email: {item.email_address}</Text>
-                <Text>Phone: {item.phone}</Text>
-                <Text>Instagram: {item.instagram}</Text>
-                <Text>CNPJ/CPF: {item.cnpj_cpf}</Text>
-              </View>
-            )}
-          />
           <View style={{ flex: 1 }}>
             <MyImageButton
               title="Registrar Usuário"

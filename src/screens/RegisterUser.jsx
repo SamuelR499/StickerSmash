@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { StatusBar } from "react-native";
 import {
   View,
@@ -12,8 +12,6 @@ import Mytextinput from "../components/Mytextinput";
 import Mybutton from "../components/Mybutton";
 import MyRadioButton from "../components/MyRadioButton";
 import { DatabaseConnection } from "../database/database-connection";
-
-const db = await DatabaseConnection.getConnection();
 
 const RegisterUser = ({ navigation }) => {
   const radiusOptions = [
@@ -29,11 +27,25 @@ const RegisterUser = ({ navigation }) => {
   const [userCnpj, setUserCnpj] = useState("");
   const [selectedRadius, setSelectedRadius] = useState(radiusOptions[0]);
 
+  const [db, setDb] = useState(null);
+
+  useEffect(() => {
+    const initializeDatabase = async () => {
+      try {
+        const database = await DatabaseConnection.getConnection();
+        setDb(database);
+      } catch (error) {
+        console.error("Error initializing database: ", error);
+      }
+    };
+
+    initializeDatabase();
+  }, []);
+
   const handleCnpjChange = (text) => {
     const cnpj = text.replace(/\D/g, "");
 
     if (cnpj.length <= 14) {
-      // Formata o CNPJ com pontos, barra e traço conforme o usuário digita
       let formatted = "";
       for (let i = 0; i < cnpj.length; i++) {
         if (i === 2 || i === 5) {
@@ -48,12 +60,12 @@ const RegisterUser = ({ navigation }) => {
       }
       setUserCnpj(formatted);
     } else {
-      setUserCnpj(text); // Se não tiver 14 dígitos, apenas atualize o campo com o valor não formatado
+      setUserCnpj(text);
     }
   };
 
   const handlePhoneChange = (text) => {
-    const phone = text.replace(/\D/g, ""); // Remove todos os caracteres não numéricos
+    const phone = text.replace(/\D/g, "");
 
     let formatted = "";
     for (let i = 0; i < phone.length; i++) {
@@ -71,24 +83,46 @@ const RegisterUser = ({ navigation }) => {
   };
 
   const submitData = async () => {
-    const result = await db.runAsync(
-      "INSERT INTO Users (name, email_address, phone, instagram, cnpj_cpf) VALUES (?, ?, ?, ?, ?)",
-      [userName, userContact, userAddress, userSocial, userCnpj, selectedRadius]
-    );
-    console.log(result.lastInsertRowId, result.changes);
+    if (!db) {
+      return { success: false, message: "Database not initialized." };
+    }
+
+    try {
+      const result = await db.runAsync(
+        "INSERT INTO Users_Teste (name, email_address, phone, instagram, cnpj, type) VALUES (?, ?, ?, ?, ?, ?)",
+        [
+          userName,
+          userContact,
+          userAddress,
+          userSocial,
+          userCnpj,
+          selectedRadius,
+        ]
+      );
+      if (result.changes) {
+        return { success: true, message: "Usuário Registrado com Sucesso !!!" };
+      } else {
+        return {
+          success: false,
+          message: "Erro ao tentar Registrar o Usuário !!!",
+        };
+      }
+    } catch (error) {
+      return { success: false, message: `Erro: ${error.message}` };
+    }
   };
 
   const register_user = () => {
     if (!userName) {
-      alert("Por favor preencha o nome !");
+      alert("Por favor preencha o nome!");
       return;
     }
     if (!userContact) {
-      alert("Por favor preencha o contato !");
+      alert("Por favor preencha o contato!");
       return;
     }
     if (!userAddress) {
-      alert("Por favor preencha o e-mail !");
+      alert("Por favor preencha o e-mail!");
       return;
     }
 
@@ -124,7 +158,30 @@ const RegisterUser = ({ navigation }) => {
         },
         {
           text: "Concordo",
-          onPress: () => submitData(),
+          onPress: async () => {
+            const result = await submitData();
+            Alert.alert(
+              result.success ? "Sucesso" : "Erro",
+              result.message,
+              [
+                {
+                  text: "Ok",
+                  onPress: () => {
+                    if (result.success) {
+                      setUserName("");
+                      setUserContact("");
+                      setUserAddress("");
+                      setUserSocial("");
+                      setUserCnpj("");
+                      setSelectedRadius(radiusOptions[0]);
+                      navigation.navigate("Register");
+                    }
+                  },
+                },
+              ],
+              { cancelable: false }
+            );
+          },
         },
       ],
       { cancelable: true }
@@ -192,7 +249,7 @@ const RegisterUser = ({ navigation }) => {
                 <Mytextinput
                   placeholder="CNPJ"
                   onChangeText={handleCnpjChange}
-                  maxLength={18} // Defina o máximo para o valor formatado
+                  maxLength={18}
                   keyboardType="numeric"
                   style={{ padding: 10 }}
                   value={userCnpj}
