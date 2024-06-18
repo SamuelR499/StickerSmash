@@ -6,9 +6,12 @@ import {
   SafeAreaView,
   StyleSheet,
   StatusBar,
+  Alert,
 } from "react-native";
 import Mybutton from "../components/Mybutton";
 import { DatabaseConnection } from "../database/database-connection";
+import * as FileSystem from "expo-file-system";
+import * as Sharing from "expo-sharing";
 
 const ViewAllUser = () => {
   const [flatListItems, setdataList] = useState([]);
@@ -27,8 +30,41 @@ const ViewAllUser = () => {
     initializeDatabase();
   }, []);
 
+  const createCSV = (data) => {
+    const header = "Código,Nome,Contato,E-mail,Instagram,CNPJ,Tipo\n";
+    const rows = data
+      .map(
+        (item) =>
+          `${item.id},${item.name},${item.phone},${item.email_address},${
+            item.instagram
+          },${item.cnpj || "Não tem CNPJ"},${item.type}`
+      )
+      .join("\n");
+
+    return header + rows;
+  };
+
   const handleClick = async () => {
-    alert("Dado Expotado com sucesso kk LoL");
+    try {
+      const csvData = createCSV(flatListItems);
+      const timestamp = new Date().toISOString().replace(/[:.]/g, "-"); //Create a timestamp
+      const fileUri =
+        FileSystem.documentDirectory + `Market-report-${timestamp}.txt`;
+      await FileSystem.writeAsStringAsync(fileUri, csvData);
+
+      if (!(await Sharing.isAvailableAsync())) {
+        Alert.alert(
+          "Erro",
+          "Compartilhamento não está disponível no dispositivo"
+        );
+        return;
+      }
+
+      await Sharing.shareAsync(fileUri);
+    } catch (error) {
+      console.error("Error exporting data: ", error);
+      Alert.alert("Erro", "Falha ao exportar os dados");
+    }
   };
 
   let listItemView = (item) => {
