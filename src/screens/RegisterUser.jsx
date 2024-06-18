@@ -192,18 +192,18 @@ const RegisterUser = ({ navigation }) => {
     <SafeAreaView style={{ flex: 1 }}>
       <StatusBar barStyle="light-content" backgroundColor="#e5272c" />
       <View style={{ flex: 1, backgroundColor: "white" }}>
-        <Image
-          source={require("../../assets/images/FTW.png")}
-          style={{
-            marginVertical: 30,
-            margin: 10,
-            alignSelf: "center",
-            width: 350,
-            height: 140,
-          }}
-        />
         <View style={{ flex: 1 }}>
           <ScrollView keyboardShouldPersistTaps="handled">
+            <Image
+              source={require("../../assets/images/FTW.png")}
+              style={{
+                marginVertical: 30,
+                margin: 10,
+                alignSelf: "center",
+                width: 140,
+                height: 57,
+              }}
+            />
             <KeyboardAvoidingView
               behavior="padding"
               style={{ flex: 1, justifyContent: "space-between" }}
