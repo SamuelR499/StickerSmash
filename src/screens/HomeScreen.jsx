@@ -4,8 +4,6 @@ import MyImageButton from "../components/MyImageButton";
 import { DatabaseConnection } from "../database/database-connection";
 
 const HomeScreen = ({ navigation }) => {
-  const [users, setUsers] = useState([]);
-
   useEffect(() => {
     const initializeDatabase = async () => {
       try {

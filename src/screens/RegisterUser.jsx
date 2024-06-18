@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { StatusBar } from "react-native";
 import {
-  View,
-  ScrollView,
-  KeyboardAvoidingView,
+  StatusBar,
   Alert,
   SafeAreaView,
   Image,
+  View,
+  ScrollView,
+  KeyboardAvoidingView,
 } from "react-native";
 import Mytextinput from "../components/Mytextinput";
 import Mybutton from "../components/Mybutton";
@@ -26,8 +26,7 @@ const RegisterUser = ({ navigation }) => {
   const [userSocial, setUserSocial] = useState("");
   const [userCnpj, setUserCnpj] = useState("");
   const [selectedRadius, setSelectedRadius] = useState(radiusOptions[0]);
-
-  const [db, setDb] = useState(null);
+  const [db, setDb] = useState();
 
   useEffect(() => {
     const initializeDatabase = async () => {
@@ -44,7 +43,6 @@ const RegisterUser = ({ navigation }) => {
 
   const handleCnpjChange = (text) => {
     const cnpj = text.replace(/\D/g, "");
-
     if (cnpj.length <= 14) {
       let formatted = "";
       for (let i = 0; i < cnpj.length; i++) {
@@ -66,7 +64,6 @@ const RegisterUser = ({ navigation }) => {
 
   const handlePhoneChange = (text) => {
     const phone = text.replace(/\D/g, "");
-
     let formatted = "";
     for (let i = 0; i < phone.length; i++) {
       if (i === 0) {
@@ -125,7 +122,6 @@ const RegisterUser = ({ navigation }) => {
       alert("Por favor preencha o e-mail!");
       return;
     }
-
     Alert.alert(
       "Aviso de Coleta de Dados",
       'Nós coletamos os dados solicitados neste formulário. Seus dados serão usados exclusivamente para os fins indicados e não serão compartilhados com terceiros sem o seu consentimento.\n\nAo clicar em "Concordo", você concorda com o uso responsável de seus dados.',

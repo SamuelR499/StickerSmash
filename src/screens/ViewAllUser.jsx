@@ -14,14 +14,15 @@ import * as FileSystem from "expo-file-system";
 import * as Sharing from "expo-sharing";
 
 const ViewAllUser = () => {
-  const [flatListItems, setdataList] = useState([]);
+  const [flatListItems, setFlatListItems] = useState([]);
 
   useEffect(() => {
     const initializeDatabase = async () => {
       try {
         const db = await DatabaseConnection.getConnection();
-        const flatListItems = await db.getAllAsync("SELECT * FROM Users_Teste");
-        setdataList(flatListItems);
+        const result = await db.getAllAsync("SELECT * FROM Users_Teste");
+        setFlatListItems(result);
+        console.log(result);
       } catch (error) {
         console.error("Error initializing database: ", error);
       }
@@ -47,9 +48,9 @@ const ViewAllUser = () => {
   const handleClick = async () => {
     try {
       const csvData = createCSV(flatListItems);
-      const timestamp = new Date().toISOString().replace(/[:.]/g, "-"); //Create a timestamp
+      const timestamp = new Date().toISOString().replace(/[:.]/g, "-");
       const fileUri =
-        FileSystem.documentDirectory + `Market-report-${timestamp}.txt`;
+        FileSystem.documentDirectory + `Market-report-${timestamp}.csv`;
       await FileSystem.writeAsStringAsync(fileUri, csvData);
 
       if (!(await Sharing.isAvailableAsync())) {
@@ -67,40 +68,38 @@ const ViewAllUser = () => {
     }
   };
 
-  let listItemView = (item) => {
-    return (
-      <View
-        key={item.id}
-        style={{
-          backgroundColor: "#EEE",
-          marginTop: 20,
-          padding: 30,
-          borderRadius: 10,
-        }}
-      >
-        <Text style={styles.textheader}>Código</Text>
-        <Text style={styles.textbottom}>{item.id}</Text>
+  const listItemView = (item) => (
+    <View
+      key={item.id}
+      style={{
+        backgroundColor: "#EEE",
+        marginTop: 20,
+        padding: 30,
+        borderRadius: 10,
+      }}
+    >
+      <Text style={styles.textheader}>Código</Text>
+      <Text style={styles.textbottom}>{item.id}</Text>
 
-        <Text style={styles.textheader}>Nome</Text>
-        <Text style={styles.textbottom}>{item.name}</Text>
+      <Text style={styles.textheader}>Nome</Text>
+      <Text style={styles.textbottom}>{item.name}</Text>
 
-        <Text style={styles.textheader}>Contato</Text>
-        <Text style={styles.textbottom}>{item.phone}</Text>
+      <Text style={styles.textheader}>Contato</Text>
+      <Text style={styles.textbottom}>{item.phone}</Text>
 
-        <Text style={styles.textheader}>E-mail</Text>
-        <Text style={styles.textbottom}>{item.email_address}</Text>
+      <Text style={styles.textheader}>E-mail</Text>
+      <Text style={styles.textbottom}>{item.email_address}</Text>
 
-        <Text style={styles.textheader}>Instagram</Text>
-        <Text style={styles.textbottom}>{item.instagram}</Text>
+      <Text style={styles.textheader}>Instagram</Text>
+      <Text style={styles.textbottom}>{item.instagram}</Text>
 
-        <Text style={styles.textheader}>CNPJ</Text>
-        <Text style={styles.textbottom}>{item.cnpj || "Não tem CNPJ"}</Text>
+      <Text style={styles.textheader}>CNPJ</Text>
+      <Text style={styles.textbottom}>{item.cnpj || "Não tem CNPJ"}</Text>
 
-        <Text style={styles.textheader}>Tipo</Text>
-        <Text style={styles.textbottom}>{item.type}</Text>
-      </View>
-    );
-  };
+      <Text style={styles.textheader}>Tipo</Text>
+      <Text style={styles.textbottom}>{item.type}</Text>
+    </View>
+  );
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
